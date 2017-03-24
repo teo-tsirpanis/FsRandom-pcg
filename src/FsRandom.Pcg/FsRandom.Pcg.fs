@@ -6,8 +6,6 @@
 namespace FsRandom
 
 open System
-open RandomNumberGenerator
-open Utility
 
 
 [<NoComparison>]
@@ -60,7 +58,3 @@ module Pcg =
         state
 
     let createOneSeq seed = create seed DefaultIncrement
-
-    let createRandom () = 
-        let randomState = createRandomState()
-        (Random.get ruint64 randomState) |> createOneSeq
