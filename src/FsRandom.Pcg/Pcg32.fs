@@ -9,9 +9,9 @@ open System
 
 
 [<NoComparison>]
-type PcgState = Pcg of uint64 * uint64
+type Pcg32State = Pcg of uint64 * uint64
 
-module Pcg =
+module Pcg32 =
 
     [<Literal>]
     let DefaultMultiplier = 6364136223846793005UL
@@ -28,8 +28,7 @@ module Pcg =
         let rotValue = state >>> 59 |> uint32
         rotr (uint32 state) rotValue
 
-    [<CompiledName("PcgRng")>]
-    let pcg x = 
+    let get x = 
         let pcg' (Pcg (state, inc)) =
             let step = stepState inc
             let getImpl state = 
@@ -52,9 +51,9 @@ module Pcg =
 
     let create seed initSeq = 
         let mutable state = (0UL, initSeq <<< 1 ||| 1UL) |> Pcg
-        let (Pcg (s, _)) = state |> pcg |> snd
+        let (Pcg (s, _)) = state |> get |> snd
         state <- ((s + seed), state |> getInc) |> Pcg
-        state <- state |> pcg |> snd
+        state <- state |> get |> snd
         state
 
     let createOneSeq seed = create seed DefaultIncrement

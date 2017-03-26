@@ -1,7 +1,6 @@
 ﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
     <PackageId>FsRandom.Pcg</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
     <Authors>Theodore Tsirpanis</Authors>
@@ -15,7 +14,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="FsRandom.Pcg.fs" />
+    <Compile Include="Pcg32.fs" />
+    <Compile Include="Pcg64.fs" />
   </ItemGroup>
 
   <ItemGroup>
