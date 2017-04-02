@@ -24,9 +24,9 @@ module Pcg32 =
         let rotr (value: uint32) (rot: uint32) = 
             let rot = rot |> int
             (value >>> rot) ||| (value <<< ((-rot) &&& 31))
-        let state' = ((state >>> 18) ^^^ state) >>> 27
+        let newState = ((state >>> 18) ^^^ state) >>> 27
         let rotValue = state >>> 59 |> uint32
-        rotr (uint32 state) rotValue
+        rotr (uint32 newState) rotValue
 
     let get x = 
         let pcg' (Pcg (state, inc)) =
