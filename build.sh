@@ -1,2 +1,2 @@
 dotnet restore
-dotnet pack
+dotnet pack -c "Release"

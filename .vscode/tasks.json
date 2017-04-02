@@ -22,7 +22,10 @@
         },
         {
             "taskName": "pack",
-            "args": [],
+            "args": [
+                "-c",
+                "Release"
+            ],
             "isBuildCommand": false,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"
