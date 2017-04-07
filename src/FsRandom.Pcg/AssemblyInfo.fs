@@ -7,9 +7,10 @@ namespace System
 
 open System.Reflection
 
-[<assembly: AssemblyTitle("Brainsharp")>]
-[<assembly: AssemblyDescription("A Brainfuck toolchain written in F#.")>]
+[<assembly: AssemblyTitle("FsRandom.Pcg")>]
+[<assembly: AssemblyDescription("The PCG Pseudo-Random Number Generator for F#.")>]
 [<assembly: AssemblyCopyright("Licensed under the MIT License. Created by Theodore Tsirpanis.")>]
-[<assembly: AssemblyVersion("1.1")>]
+[<assembly: AssemblyVersion("1.1.1")>]
+[<assembly: AssemblyFileVersionAttribute("1.1.1")>]
 
 ()
