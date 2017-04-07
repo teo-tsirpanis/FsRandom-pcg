@@ -45,6 +45,7 @@ module Pcg32 =
     let create seed initSeq = 
         let inc = (initSeq <<< 1) ||| 1UL
         let makeState seed = (seed, inc) |> Pcg
-        makeState 0UL |> stepState
+        makeState 0UL |> stepState |> ((+) seed)
+                      |> makeState |> stepState |> makeState
 
     let createOneSeq seed = create seed DefaultIncrement

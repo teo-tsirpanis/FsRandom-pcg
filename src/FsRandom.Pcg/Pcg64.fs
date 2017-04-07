@@ -57,6 +57,7 @@ module Pcg64 =
     let create seed initSeq =
         let inc = (initSeq <<< 1) ||| 1I |> uint128
         let makeState seed = (seed, inc) |> Pcg
-        makeState zero |> stepState |> (map ((+) seed)) |> makeState
+        makeState zero |> stepState |> (map ((+) seed)) 
+                       |> makeState |> stepState |> makeState
 
     let createOneSeq seed = create seed defaultIncrement
