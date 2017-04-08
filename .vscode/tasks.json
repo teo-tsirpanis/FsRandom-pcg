@@ -8,7 +8,10 @@
     "tasks": [
         {
             "taskName": "build",
-            "args": [],
+            "args": [
+                "-c",
+                "Release"
+            ],
             "isBuildCommand": true,
             "showOutput": "silent",
             "problemMatcher": "$msCompile"
