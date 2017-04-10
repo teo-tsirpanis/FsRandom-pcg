@@ -5,6 +5,8 @@
 
 namespace FsRandom
 
+open System
+
 [<NoComparison>]
 /// A PCG-32 state. It consists of two unsigned 64-bit numbers.
 type Pcg32State = private Pcg of state:uint64 * inc:uint64
@@ -38,6 +40,14 @@ module Pcg32 =
         let newState = state |> stepState |> (setState state)
         let (Pcg(oldState, _)) = state
         oldState |> outputPermutation, newState
+
+    /// Advances a PCG-32 state forward by `delta` steps, but does so in logarithmic time.
+    let advance (Pcg(state, inc)) delta =
+        (LcgAdvance.advance32 state delta DefaultMultiplier inc, inc)
+        |> Pcg
+    
+    /// Moves the PCG-32 backwards by `delta` steps, but does so in logarithmic time.
+    let backstep state delta = advance state (UInt64.MaxValue - delta)
 
     /// Creates a PCG-32 state from the given seed and stream index.
     let create seed initSeq =

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="LcgAdvance.fs" />
     <Compile Include="Pcg32.fs" />
     <Compile Include="Pcg64.fs" />
     <Compile Include="SystemRandom.fs" />
