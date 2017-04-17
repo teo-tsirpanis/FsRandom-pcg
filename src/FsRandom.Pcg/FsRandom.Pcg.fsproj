@@ -10,7 +10,8 @@
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>

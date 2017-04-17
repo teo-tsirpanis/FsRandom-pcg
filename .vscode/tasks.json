@@ -4,7 +4,6 @@
     "version": "0.1.0",
     "command": "dotnet",
     "isShellCommand": true,
-    "args": [],
     "tasks": [
         {
             "taskName": "build",
@@ -13,14 +12,11 @@
                 "Release"
             ],
             "isBuildCommand": true,
-            "showOutput": "silent",
             "problemMatcher": "$msCompile"
         },
         {
             "taskName": "restore",
             "args": [],
-            "isBuildCommand": false,
-            "showOutput": "silent",
             "problemMatcher": "$msCompile"
         },
         {
@@ -29,9 +25,17 @@
                 "-c",
                 "Release"
             ],
-            "isBuildCommand": false,
-            "showOutput": "silent",
             "problemMatcher": "$msCompile"
+        },
+        {
+            "taskName": "test",
+            "args": [
+                "-c",
+                "Release",
+                "./tests/FsRandom.Pcg.Tests/FsRandom.Pcg.Tests.fsproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "isTestCommand": true
         }
     ]
 }
