@@ -1,0 +1,13 @@
+type file
+id FsRandom.Pcg
+version 1.2
+authors Theodore Tsirpanis
+tags F#, FSharp, FsRandom, random, pcg
+licenseUrl http://opensource.org/licenses/MIT
+projectUrl https://github.com/teo-tsirpanis/FsRandom-pcg
+copyright Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License.
+DESCRIPTION
+    Implementation of the PCG Pseudorandom number generator for FsRandom.
+    FsRandom must be installed separately.
+files
+    src/FsRandom.Pcg/bin/Release ==> lib

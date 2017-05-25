@@ -1,4 +1,4 @@
-﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>FsRandom.Pcg</PackageId>
     <PackageVersion>1.2</PackageVersion>
@@ -10,7 +10,7 @@
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
-    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
+    <TargetFramework>netstandard1.6</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -23,8 +23,7 @@
     <Compile Include="SystemRandom.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="4.1.*" />
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
-    <PackageReference Include="SoftWx.Numerics.Portable" Version="2.2" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

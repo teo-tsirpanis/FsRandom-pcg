@@ -1,0 +1,18 @@
+source https://api.nuget.org/v3/index.json
+
+framework: netstandard1.6
+
+nuget FAKE
+nuget FSharp.Core
+nuget SoftWx.Numerics.Portable
+
+group Test
+    source https://api.nuget.org/v3/index.json
+
+    framework: netcoreapp1.1
+    
+    nuget FSharp.Core
+    nuget fscheck.xunit
+    nuget xunit
+    nuget xunit.runner.visualstudio
+    nuget Microsoft.NET.Test.Sdk
