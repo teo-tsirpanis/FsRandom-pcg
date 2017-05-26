@@ -5,7 +5,6 @@
 
 namespace FsRandom
 
-open Operators.Unchecked
 open SoftWx.Numerics
 open System
 open System.Numerics
@@ -62,6 +61,14 @@ module Pcg64 =
         let state = state |> stepState |> (setState state)
         let (Pcg(state', _)) = state
         state' |> outputPermutation, state
+
+    /// Advances a PCG-64 state forward by `delta` steps, but does so in logarithmic time.
+    let advance delta (Pcg(state, inc)) =
+        (LcgAdvance.advance128 state delta defaultMultiplier inc, inc)
+        |> Pcg
+    
+    /// Moves the PCG-64 state backwards by `delta` steps, but does so in logarithmic time.
+    let backstep delta state = advance (UInt128.MaxValue - delta) state
 
     /// Creates a PCG-64 state from the given seed and stream index.
     let create seed initSeq =
