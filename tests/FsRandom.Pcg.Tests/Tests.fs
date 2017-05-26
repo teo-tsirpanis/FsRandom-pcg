@@ -23,5 +23,7 @@ type UInt128Generator =
             override x.Shrinker y = Seq.empty}
 
 // [<Property>]
-[<Property(Arbitrary=[|typeof<UInt128Generator>|])>]
+// [<Property(Arbitrary=[|typeof<UInt128Generator>|])>]
 let ``A UInt128 can be reliably converted to a bigint and the other way round`` x = x = (x |> bigint |> uint128)
+[<Property>]
+let ``I will succeed`` x = x >= 0u

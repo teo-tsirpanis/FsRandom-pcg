@@ -2,7 +2,6 @@ source https://api.nuget.org/v3/index.json
 
 framework: netstandard1.6
 
-nuget FAKE
 nuget FSharp.Core
 nuget SoftWx.Numerics.Portable
 
@@ -16,3 +15,8 @@ group Test
     nuget xunit
     nuget xunit.runner.visualstudio
     nuget Microsoft.NET.Test.Sdk
+
+group Build
+    source https://api.nuget.org/v3/index.json
+
+    nuget FAKE

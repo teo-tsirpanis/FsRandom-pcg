@@ -1,10 +1,9 @@
 // Copyright © 2017 Theodore Tsirpanis
 // include Fake libs
-#r "./packages/FAKE/tools/FakeLib.dll"
+#r "./packages/build/FAKE/tools/FakeLib.dll"
 
 open Fake
 open Fake.AppVeyor
-open Fake.AssemblyInfoFile
 open Fake.Git
 open System
 open System.IO
@@ -41,20 +40,6 @@ let makeResource file =
     let file = file |> Path.GetFileNameWithoutExtension
     sprintf "let %s = \"\"\"\n%s\n\"\"\"" file content
 
-let attributes = 
-    let gitHash = Information.getCurrentHash()
-    let buildDate = DateTime.UtcNow.ToString()
-    [ Attribute.Title AppName
-      
-      Attribute.Copyright 
-          "Copyright © 2017 Theodore Tsirpanis."
-      Attribute.Metadata("Git Hash", gitHash)
-      Attribute.Metadata("Build Date", buildDate)
-      
-      Attribute.Metadata
-          ("Version Message", 
-           String.Format(AppVersionMessage, version, gitHash, buildDate))
-      Attribute.Version version ]
 
 // Targets
 Target "Clean" (fun _ -> DotNetCli.RunCommand id "clean")
@@ -65,31 +50,24 @@ Target "MakeResources" (fun _ ->
                             let content = resourceFiles |> Seq.map makeResource |> String.concat "\n" |> sprintf "module Teo.Resources\n%s"
                             File.WriteAllText("./src/Resources.fs", content))
 
-Target "AssemblyInfo" (fun _ -> CreateFSharpAssemblyInfo "./src/AssemblyInfo.fs" attributes)
-
 Target "Restore" (fun _ -> DotNetCli.Restore id)
 
-Target "Build" ignore /// Just a placeholder to define the "Publish" and "Test" dependencies
+Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with Configuration = "Release"}))
 
-Target "Publish" (fun _ -> codeProjects
-                           |> List.iter 
-                            (fun x -> DotNetCli.Publish (fun p -> {p with Project = x;
-                                                                          Configuration = "Release";
-                                                                          Output = sprintf "./../../%s" BuildDir;})))
+Target "Pack" (fun _ -> codeProjects |> List.iter (fun x -> DotNetCli.Pack (fun p -> {p with Project = x; AdditionalArgs = ["--no-build"]})))
 
-Target "Test" (fun _ -> testProjects
-                           |> List.iter 
-                            (fun x -> DotNetCli.Test (fun p -> {p with Project = x;
-                                                                       Configuration = "Debug"})))
+Target "BuildTestDebug " (fun _ -> testProjects |> List.iter (fun x -> DotNetCli.Build (fun p -> {p with Project = x; Configuration = "Debug"})))
+
+Target "Test" (fun _ -> testProjects |> List.iter (fun x -> DotNetCli.Test (fun p -> {p with Project = x; AdditionalArgs = ["--no-build"]})))
 
 // Build order
-"CleanBuildOutput" ==> "Clean"
 "CleanBuildOutput"
+    ==> "Clean"
     ==> "Restore"
-    ==> "AssemblyInfo"
     ==> "MakeResources"
     ==> "Build"
-    ==> "Publish"
-"Build" ==> "Test"
+    =?> ("BuildTestDebug", hasBuildParam "Test" && not testProjects.IsEmpty)
+    =?> ("Test" , not testProjects.IsEmpty)
+    ==> "Pack"
 // start build
-RunTargetOrDefault "Publish"
+RunTargetOrDefault "Pack"
