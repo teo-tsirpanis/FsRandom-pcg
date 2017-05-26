@@ -5,6 +5,7 @@
 
 namespace FsRandom
 
+open Operators.Unchecked
 open SoftWx.Numerics
 open System
 open System.Numerics
@@ -19,23 +20,6 @@ module UInt128 =
 
     /// Returns the hogh part of a `UInt128`.
     let high (x:UInt128) = x.High
-
-    /// Number two raised in the 128th power, _as a `bigint`_.
-    let ``2^128`` = 340282366920938463463374607431768211456I
-
-    /// Converts a `UInt128` to a `bigint`.
-    let bigint x =
-        let lo, hi = x |> low |> bigint, x |> high |> bigint
-        (hi <<< 64) + lo
-
-    /// Converts a `bigint` to a `UInt128`.
-    /// The absolute value of the bigint mod 2^128
-    /// will be the value of the new `UInt128`.
-    let uint128 x =
-        let x = (abs x) % ``2^128``
-        let bytes = x.ToByteArray() |> Array.rev
-        let f i = BitConverter.ToUInt64(bytes, i)
-        (f 0, f 8) |> UInt128
 
     /// Returns a cryptographically random `UInt128`.
     /// Useful for seeding PCG-64.

@@ -7,7 +7,7 @@ open FsCheck.Xunit
 open FsCheck
 open SoftWx.Numerics
 
-let genUInt128 = Arb.generate<uint64> |> Gen.map (fun x -> UInt128(x, 0UL))
+let genUInt128 = Arb.generate<uint64> |> Gen.two |> Gen.map UInt128
 
 let rec shrinkUInt128 x = seq {
     yield x
@@ -22,8 +22,5 @@ type UInt128Generator =
             override x.Generator = genUInt128
             override x.Shrinker y = Seq.empty}
 
-// [<Property>]
-// [<Property(Arbitrary=[|typeof<UInt128Generator>|])>]
-let ``A UInt128 can be reliably converted to a bigint and the other way round`` x = x = (x |> bigint |> uint128)
 [<Property>]
 let ``I will succeed`` x = x >= 0u
