@@ -8,7 +8,7 @@ nuget SoftWx.Numerics.Portable
 group Test
     source https://api.nuget.org/v3/index.json
 
-    framework: netcoreapp1.1
+    framework: net462
     
     nuget FSharp.Core
     nuget fscheck.xunit
