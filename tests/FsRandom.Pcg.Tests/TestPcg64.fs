@@ -9,32 +9,35 @@ open System
 open FsCheck
 open FsCheck.Xunit
 open SoftWx.Numerics
+open FsRandom
 open FsRandom.LcgAdvance
 open FsRandom.Pcg64
 
 let genUInt128 = Arb.generate<uint64> |> Gen.two |> Gen.map UInt128
 
 let rec shrinkUInt128 x = seq {
-    yield x
-    printf "Yielded %A" x
     if x <> UInt128.Zero then
-        yield! x - UInt128.One |> shrinkUInt128
+        let x = x - UInt128.One
+        yield x
+        yield! shrinkUInt128 x
 }
 
-type UInt128Generator =
-    static member UInt128() =
-        {new Arbitrary<UInt128>() with
-            override x.Generator = genUInt128
-            override x.Shrinker y = Seq.empty}
+let genPcg64State = Arb.generate<UInt128> |> Gen.two |> Gen.map ((<||) create)
 
-[<Property>]
+type Generators =
+    static member UInt128() = Arb.fromGenShrink (genUInt128, shrinkUInt128)
+    static member Pcg64State() = Arb.fromGen genPcg64State
+
+[<Property(Arbitrary = [|typeof<Generators>|])>]
 let ``modExp128 should work properly`` a exp = 
-    (a > 0 && a <= Int32.MaxValue && exp <= Int32.MaxValue && exp >= 0) ==>
+    (exp >= 0) ==>
         lazy
-            (let a, exp = uint64 a, uint64 exp
-            modExp128 (UInt128.op_Implicit a) (UInt128.op_Implicit exp) = (Seq.replicate (int exp) a |> Seq.fold (*) UInt128.One))
+            (
+                let expected = exp |> uint64 |> UInt128.op_Implicit |> modExp128 a
+                let actual = Seq.replicate exp a |> Seq.fold (*) UInt128.One
+                expected = actual
+            )
         
-[<Property>]
-let ``Pcg64.advance should be an inverse of backstep`` x dlo dhi =
-    let delta = UInt128 (dhi, dlo)
+[<Property(Arbitrary = [|typeof<Generators>|])>]
+let ``Pcg64.advance should be an inverse of backstep`` x delta =
     x |> advance delta |> backstep delta |> ((=) x)
