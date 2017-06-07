@@ -41,3 +41,13 @@ let ``modExp128 should work properly`` a exp =
 [<Property(Arbitrary = [|typeof<Generators>|])>]
 let ``Pcg64.advance should be an inverse of backstep`` x delta =
     x |> advance delta |> backstep delta |> ((=) x)
+
+[<Property(Arbitrary = [|typeof<Generators>|])>]
+let ``Pcg64.advance 1 should be the same thing with Pcg64.get`` x =
+    let expected = x |> Pcg64.get |> snd
+    let actual = x |> Pcg64.advance UInt128.One
+    expected = actual
+
+[<Property(Arbitrary = [|typeof<Generators>|])>]
+let ``Pcg64.advance 0 should not change the state`` x =
+    Pcg64.advance UInt128.Zero x = x

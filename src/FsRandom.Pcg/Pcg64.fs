@@ -58,7 +58,7 @@ module Pcg64 =
     /// Generates a random number from theprovided state.
     /// Returns a tuple consisting of the new number and the new state.
     let get state =
-        let state = state |> stepState |> (setState state)
+        let state = state |> stepState |> setState state
         let (Pcg(state', _)) = state
         state' |> outputPermutation, state
 

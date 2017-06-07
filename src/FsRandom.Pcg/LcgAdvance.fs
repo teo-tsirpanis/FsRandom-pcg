@@ -1,5 +1,5 @@
 // Copyright (c) 2017 Theodore Tsirpanis
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -33,10 +33,23 @@ module LcgAdvance =
 
     /// Efficiently advances a 64-bit LCG state with multiplier `a`, incrementer `b`, by `delta` steps.
     let advance64 state delta a b =
-        let an = modExp64 a delta
-        an * state + (an - 1UL) * b / (a - 1UL)
+        // let an = modExp64 a delta
+        // an * state + (an - 1UL) * b / (a - 1UL)
+        let mutable delta = delta
+        let mutable curmult = a
+        let mutable curplus = b
+        let mutable accmult = 1UL
+        let mutable accplus = 0UL
+        while delta > 0UL do
+            if delta &&& 1UL <> 0UL then
+                accmult <- accmult * curmult
+                accplus <- accplus * curmult + curplus
+            curplus <- (curmult + 1UL) * curplus
+            curmult <- curmult * curmult
+            delta <- delta >>> 1
+        accmult * state + accplus
 
     /// Efficiently advances a 128-bit LCG state with multiplier `a`, incrementer `b`, by `delta` steps.
     let advance128 state delta a b =
         let an = modExp128 a delta
-        an * state + (an - UInt128.One) * b / (a - UInt128.One)
+        an * state + ((an - UInt128.One) / (a - UInt128.One)) * b
