@@ -51,5 +51,18 @@ module LcgAdvance =
 
     /// Efficiently advances a 128-bit LCG state with multiplier `a`, incrementer `b`, by `delta` steps.
     let advance128 state delta a b =
-        let an = modExp128 a delta
-        an * state + ((an - UInt128.One) / (a - UInt128.One)) * b
+        // let an = modExp128 a delta
+        // an * state + ((an - UInt128.One) / (a - UInt128.One)) * b
+        let mutable delta = delta
+        let mutable curmult = a
+        let mutable curplus = b
+        let mutable accmult = UInt128.One
+        let mutable accplus = UInt128.Zero
+        while delta > UInt128.Zero do
+            if delta &&& UInt128.One <> UInt128.Zero then
+                accmult <- accmult * curmult
+                accplus <- accplus * curmult + curplus
+            curplus <- (curmult + UInt128.One) * curplus
+            curmult <- curmult * curmult
+            delta <- delta >>> 1
+        accmult * state + accplus
