@@ -5,12 +5,13 @@
 
 namespace FsRandom
 
+#nowarn "10001"
+
 open SoftWx.Numerics
 open System
 open System.Numerics
 open System.Security.Cryptography
 
-[<AutoOpen>]
 /// Functions to deal with `UInt128`s.
 module UInt128 =
 
@@ -32,7 +33,7 @@ module UInt128 =
 
 [<NoComparison>]
 /// A PCG-64 state. It consists of two `UInt128`s.
-type Pcg64State = Pcg of state:UInt128 * inc:UInt128
+type Pcg64State = private Pcg of state:UInt128 * inc:UInt128
 
 module Pcg64 =
 
@@ -53,24 +54,29 @@ module Pcg64 =
         rotr state' rotValue
 
     /// Gets the stream index of a state.
+    [<CompiledName("GetInc")>]
     let getInc (Pcg(_, inc)) = inc
 
     /// Generates a random number from theprovided state.
     /// Returns a tuple consisting of the new number and the new state.
+    [<CompiledName("Get")>]
     let get state =
         let state = state |> stepState |> setState state
         let (Pcg(state', _)) = state
         state' |> outputPermutation, state
 
     /// Advances a PCG-64 state forward by `delta` steps, but does so in logarithmic time.
+    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
     let advance delta (Pcg(state, inc)) =
         (LcgAdvance.advance128 state delta defaultMultiplier inc, inc)
         |> Pcg
     
     /// Moves the PCG-64 state backwards by `delta` steps, but does so in logarithmic time.
+    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
     let backstep delta state = advance (UInt128.MaxValue - delta) state
 
     /// Creates a PCG-64 state from the given seed and stream index.
+    [<CompiledName("Create")>]
     let create seed initSeq =
         let inc = (initSeq <<< 1) ||| UInt128.One
         let makeState seed = (seed, inc) |> Pcg
@@ -80,4 +86,5 @@ module Pcg64 =
     /// Creates a PCG-64 state from the given seed.
     /// If you don't care about the stream index,
     /// it's better to call this, instead of `create seed 0`.
+    [<CompiledName("CreateOneSeq")>]
     let createOneSeq seed = create seed defaultIncrement

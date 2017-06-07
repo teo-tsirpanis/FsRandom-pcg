@@ -5,6 +5,8 @@
 
 namespace FsRandom
 
+#nowarn "10001"
+
 open System
 
 [<NoComparison>]
@@ -32,24 +34,29 @@ module Pcg32 =
         rotr newState rotValue
 
     /// Gets the stream index of a state.
+    [<CompiledName("GetInc")>]
     let getInc (Pcg (_, x)) = x
 
     /// Generates a random number from theprovided state.
     /// Returns a tuple consisting of the new number and the new state.
+    [<CompiledName("Get")>]
     let get state =
         let newState = state |> stepState |> (setState state)
         let (Pcg(oldState, _)) = state
         oldState |> outputPermutation, newState
 
     /// Advances a PCG-32 state forward by `delta` steps, but does so in logarithmic time.
+    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
     let advance delta (Pcg(state, inc)) =
         (LcgAdvance.advance64 state delta DefaultMultiplier inc, inc)
         |> Pcg
     
     /// Moves the PCG-32 backwards by `delta` steps, but does so in logarithmic time.
+    [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
     let backstep delta state = advance (UInt64.MaxValue - delta) state
 
     /// Creates a PCG-32 state from the given seed and stream index.
+    [<CompiledName("Create")>]
     let create seed initSeq =
         let inc = (initSeq <<< 1) ||| 1UL
         let makeState seed = (seed, inc) |> Pcg
@@ -59,4 +66,5 @@ module Pcg32 =
     /// Creates a PCG-32 state from the given seed.
     /// If you don't care about the stream index,
     /// it's better to call this, instead of `create seed 0`.
+    [<CompiledName("CreateOneSeq")>]
     let createOneSeq seed = create seed DefaultIncrement

@@ -5,6 +5,8 @@
 
 module TestPcg64
 
+#nowarn "10001"
+
 open System
 open FsCheck
 open FsCheck.Xunit

@@ -1,4 +1,11 @@
+// Copyright (c) 2017 Theodore Tsirpanis
+// 
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 module Tests
+
+#nowarn "10001"
 
 open System
 open Xunit
