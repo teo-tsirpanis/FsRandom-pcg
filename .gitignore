@@ -219,3 +219,5 @@ _Pvt_Extensions
 .fake/
 
 **/Resources.fs
+
+AssemblyVersionInfo.fs
