@@ -72,7 +72,7 @@ module Pcg64 =
         |> Pcg
     
     /// Moves the PCG-64 state backwards by `delta` steps, but does so in logarithmic time.
-    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
+    [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
     let backstep delta state = advance (UInt128.MaxValue - delta) state
 
     /// Creates a PCG-64 state from the given seed and stream index.
