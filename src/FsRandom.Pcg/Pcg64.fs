@@ -52,7 +52,7 @@ module Pcg64 =
         let state' = state.High ^^^ state.Low |> uint64
         let rotValue = state >>> 122 |> uint64 |> uint32
         rotr state' rotValue
-
+    
     /// Gets the stream index of a state.
     [<CompiledName("GetInc")>]
     let getInc (Pcg(_, inc)) = inc
@@ -73,7 +73,7 @@ module Pcg64 =
     
     /// Moves the PCG-64 state backwards by `delta` steps, but does so in logarithmic time.
     [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
-    let backstep delta state = advance (UInt128.MaxValue - delta) state
+    let backstep delta state = advance (UInt128.op_UnaryNegation delta) state
 
     /// Creates a PCG-64 state from the given seed and stream index.
     [<CompiledName("Create")>]

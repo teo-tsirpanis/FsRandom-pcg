@@ -1,7 +1,7 @@
 RESTRICTION: == netstandard16
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    FSharp.Core (4.2)
+    FSharp.Core (4.2.1)
       System.Collections (>= 4.0.11)
       System.Console (>= 4.0)
       System.Diagnostics.Debug (>= 4.0.11)
@@ -109,7 +109,7 @@ NUGET
     runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1)
     runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1)
     runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1)
-    SoftWx.Numerics.Portable (2.2)
+    SoftWx.Numerics.Portable (2.3)
       NETStandard.Library (>= 1.6.1)
     System.AppContext (4.3)
       System.Runtime (>= 4.3)
@@ -564,7 +564,7 @@ NUGET
 GROUP Build
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    FAKE (4.61.2)
+    FAKE (4.61.3)
 
 GROUP Test
 RESTRICTION: == net462
@@ -575,7 +575,7 @@ NUGET
     FsCheck.Xunit (2.9)
       FsCheck (>= 2.9)
       xunit.extensibility.execution (>= 2.2 < 3.0)
-    FSharp.Core (4.2)
+    FSharp.Core (4.2.1)
     Microsoft.NET.Test.Sdk (15.0)
       Microsoft.TestPlatform.TestHost (>= 15.0)
     Microsoft.TestPlatform.TestHost (15.0)

@@ -39,3 +39,7 @@ let ``Pcg32.advance 1 should be the same thing with Pcg32.get`` x =
 [<Property(Arbitrary = [|typeof<Generators>|])>]
 let ``Pcg32.advance 0 should not change the state`` x =
     Pcg32.advance 0UL x = x
+
+[<Property(Arbitrary = [|typeof<Generators>|])>]
+let ``Pcg32.advance should be distributive`` x d1 d2 =
+    x |> Pcg32.advance d1 |> Pcg32.advance d2 = Pcg32.advance (d1 + d2) x

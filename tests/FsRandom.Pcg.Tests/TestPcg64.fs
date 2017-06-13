@@ -53,3 +53,7 @@ let ``Pcg64.advance 1 should be the same thing with Pcg64.get`` x =
 [<Property(Arbitrary = [|typeof<Generators>|])>]
 let ``Pcg64.advance 0 should not change the state`` x =
     Pcg64.advance UInt128.Zero x = x
+
+[<Property(Arbitrary = [|typeof<Generators>|])>]
+let ``Pcg64.advance should be distributive`` x d1 d2 =
+    x |> Pcg64.advance d1 |> Pcg64.advance d2 = Pcg64.advance (d1 + d2) x

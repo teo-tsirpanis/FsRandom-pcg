@@ -32,6 +32,8 @@ module Pcg32 =
         let newState = ((state >>> 18) ^^^ state) >>> 27 |> uint32
         let rotValue = state >>> 59 |> uint32
         rotr newState rotValue
+        
+    let private (~-) x = ~~~ x + 1UL
 
     /// Gets the stream index of a state.
     [<CompiledName("GetInc")>]
@@ -53,7 +55,7 @@ module Pcg32 =
     
     /// Moves the PCG-32 backwards by `delta` steps, but does so in logarithmic time.
     [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
-    let backstep delta state = advance (UInt64.MaxValue - delta) state
+    let backstep delta state = advance (-delta) state
 
     /// Creates a PCG-32 state from the given seed and stream index.
     [<CompiledName("Create")>]
