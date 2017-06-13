@@ -48,13 +48,13 @@ module Pcg32 =
         oldState |> outputPermutation, newState
 
     /// Advances a PCG-32 state forward by `delta` steps, but does so in logarithmic time.
-    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
+    [<CompiledName("Advance")>]
     let advance delta (Pcg(state, inc)) =
         (LcgAdvance.advance64 state delta DefaultMultiplier inc, inc)
         |> Pcg
     
     /// Moves the PCG-32 backwards by `delta` steps, but does so in logarithmic time.
-    [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
+    [<CompiledName("Backstep")>]
     let backstep delta state = advance (-delta) state
 
     /// Creates a PCG-32 state from the given seed and stream index.
