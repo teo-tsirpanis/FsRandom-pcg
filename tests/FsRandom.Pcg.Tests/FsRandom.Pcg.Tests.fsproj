@@ -4,6 +4,7 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TestUtils.fs" />
     <Compile Include="TestPcg32.fs" />
     <Compile Include="TestPcg64.fs" />
   </ItemGroup>
