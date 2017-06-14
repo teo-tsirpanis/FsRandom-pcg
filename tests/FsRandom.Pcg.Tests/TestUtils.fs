@@ -7,7 +7,6 @@ module TestUtils
 
 open Expecto
 open FsCheck
-open FsCheck.Xunit
 open FsRandom
 open SoftWx.Numerics
 
@@ -32,9 +31,6 @@ type Generators =
         |> Gen.two
         |> Gen.map ((<||) Pcg64.create)
         |> Arb.fromGen
-
-type FsRandomPropertyAttribute() =
-    inherit PropertyAttribute(Arbitrary = [|typeof<Generators>|])
 
 let testProperty x = 
     testPropertyWithConfig

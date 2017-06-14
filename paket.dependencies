@@ -11,12 +11,8 @@ group Test
     framework: net462
     
     nuget FSharp.Core
-    nuget fscheck.xunit
     nuget Expecto
     nuget Expecto.FsCheck
-    nuget xunit
-    nuget xunit.runner.visualstudio
-    nuget Microsoft.NET.Test.Sdk
 
 group Build
     source https://api.nuget.org/v3/index.json
