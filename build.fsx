@@ -1,5 +1,5 @@
 // Copyright (c) 2017 Theodore Tsirpanis
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -24,10 +24,10 @@ let BuildDir = "build/"
 // Filesets
 let codeProjects = !!"./src/**/*.fsproj"
 let testProjects = !!"./tests/**/*.fsproj"
-let testAssemblies = !!"./tests/**/net462/*.exe"
+let testAssemblies = !!"./tests/**/bin/Release/net462/*.exe"
 let packages = !!"./build/**/*.nupkg"
 
-let attributes = 
+let attributes =
     let buildDate = DateTime.UtcNow.ToString()
     [ Attribute.Title AppName
       Attribute.Description "The PCG RNG for F#"
@@ -35,7 +35,7 @@ let attributes =
       Attribute.Copyright
           "(c) 2016 Theodore Tsirpanis. Licensed under the MIT License."
       Attribute.Metadata("Build Date", buildDate)
-      
+
       Attribute.Version relNotes.AssemblyVersion
       Attribute.FileVersion relNotes.AssemblyVersion
       Attribute.InformationalVersion relNotes.AssemblyVersion]
@@ -72,12 +72,6 @@ let packFunc proj (x: DotNetCli.PackParams) =
                 relNotes.Notes |> String.concat "\n" |> sprintf "/p:PackageReleaseNotes=\"%s\""
             ]}
 
-let testFunc proj (x: DotNetCli.TestParams) =
-    {x with
-        Project = proj
-        Configuration = "Release"
-        AdditionalArgs = ["--no-build"]}
-
 let pushFunc url apiEnv (x: Paket.PaketPushParams) =
     {x with
         ApiKey = environVarOrFail apiEnv
@@ -103,7 +97,7 @@ Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with Configuration = "Rele
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
-Target "Test" (fun _ -> testProjects |> Seq.iter (testFunc >> DotNetCli.Test))
+Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto id)
 
 Target "CheckPendingChanges"
     (fun _ ->
