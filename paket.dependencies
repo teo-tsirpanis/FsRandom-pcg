@@ -12,6 +12,8 @@ group Test
     
     nuget FSharp.Core
     nuget fscheck.xunit
+    nuget Expecto
+    nuget Expecto.FsCheck
     nuget xunit
     nuget xunit.runner.visualstudio
     nuget Microsoft.NET.Test.Sdk

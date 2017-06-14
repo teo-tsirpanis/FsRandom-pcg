@@ -5,6 +5,7 @@
 [<AutoOpen>]
 module TestUtils
 
+open Expecto
 open FsCheck
 open FsCheck.Xunit
 open FsRandom
@@ -34,3 +35,8 @@ type Generators =
 
 type FsRandomPropertyAttribute() =
     inherit PropertyAttribute(Arbitrary = [|typeof<Generators>|])
+
+let testProperty x = 
+    testPropertyWithConfig
+        {FsCheckConfig.defaultConfig with
+            arbitrary = [typeof<Generators>]} x

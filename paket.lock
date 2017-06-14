@@ -570,6 +570,15 @@ GROUP Test
 RESTRICTION: == net462
 NUGET
   remote: https://api.nuget.org/v3/index.json
+    Argu (3.7)
+    Expecto (4.2.1)
+      Argu (>= 3.7)
+      FSharp.Core (>= 4.1.12)
+      Mono.Cecil (>= 0.9.6.4)
+    Expecto.FsCheck (4.2.1)
+      Expecto (>= 4.2.1)
+      FsCheck (>= 2.8)
+      FSharp.Core (>= 4.1.12)
     FsCheck (2.9)
       FSharp.Core (>= 4.1)
     FsCheck.Xunit (2.9)
@@ -579,6 +588,7 @@ NUGET
     Microsoft.NET.Test.Sdk (15.0)
       Microsoft.TestPlatform.TestHost (>= 15.0)
     Microsoft.TestPlatform.TestHost (15.0)
+    Mono.Cecil (0.9.6.4)
     xunit (2.2)
       xunit.assert (2.2)
       xunit.core (2.2)

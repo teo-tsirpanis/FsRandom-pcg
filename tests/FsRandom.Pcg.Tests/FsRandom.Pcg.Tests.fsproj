@@ -2,11 +2,13 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestUtils.fs" />
     <Compile Include="TestPcg32.fs" />
     <Compile Include="TestPcg64.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
