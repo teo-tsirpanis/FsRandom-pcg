@@ -32,12 +32,4 @@ let properties =
             Pcg64.advance UInt128.Zero x = x
             
         testProperty "advance is distributive" <| fun x d1 d2 ->
-            x |> Pcg64.advance d1 |> Pcg64.advance d2 = Pcg64.advance (d1 + d2) x
-            
-        testProperty "modExp128 works properly" <| fun a exp ->
-            (exp >= 0) ==>
-                lazy
-                (
-                    let expected = exp |> uint64 |> UInt128.op_Implicit |> LcgAdvance.modExp128 a
-                    let actual = Seq.replicate exp a |> Seq.fold (*) UInt128.One
-                    expected = actual)]
+            x |> Pcg64.advance d1 |> Pcg64.advance d2 = Pcg64.advance (d1 + d2) x]

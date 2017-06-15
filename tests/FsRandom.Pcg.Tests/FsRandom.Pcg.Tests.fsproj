@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestUtils.fs" />
+    <Compile Include="TestLcgAdvance.fs" />
     <Compile Include="TestPcg32.fs" />
     <Compile Include="TestPcg64.fs" />
     <Compile Include="Program.fs" />

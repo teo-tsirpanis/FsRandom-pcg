@@ -30,10 +30,4 @@ let properties =
             Pcg32.advance 0UL x = x
             
         testProperty "advance is distributive" <| fun x d1 d2 ->
-            x |> Pcg32.advance d1 |> Pcg32.advance d2 = Pcg32.advance (d1 + d2) x
-            
-        testProperty "modExp64 works properly" <| fun a exp ->
-            (a >= 0 && exp >= 0) ==>
-                lazy
-                    (let a, exp = uint64 a, uint64 exp
-                    modExp64 a exp = (Seq.replicate (int exp) a |> Seq.fold (*) 1UL))]
+            x |> Pcg32.advance d1 |> Pcg32.advance d2 = Pcg32.advance (d1 + d2) x]
