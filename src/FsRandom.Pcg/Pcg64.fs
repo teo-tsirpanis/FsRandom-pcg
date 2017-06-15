@@ -41,9 +41,7 @@ module Pcg64 =
 
     let private defaultIncrement = UInt128(6364136223846793005UL, 1442695040888963407UL)
 
-    let private setState (Pcg(_, inc)) newState = (newState, inc) |> Pcg
-
-    let private stepState (Pcg(inc, state)) = state * defaultMultiplier + inc
+    let private stepState (Pcg(inc, state)) = (state * defaultMultiplier) + inc
 
     let private outputPermutation (state: UInt128) =
         let rotr (value: uint64) (rot: uint32) =
@@ -61,9 +59,9 @@ module Pcg64 =
     /// Returns a tuple consisting of the new number and the new state.
     [<CompiledName("Get")>]
     let get state =
-        let state = state |> stepState |> setState state
-        let (Pcg(state', _)) = state
-        state' |> outputPermutation, state
+        let (Pcg(_, inc)) = state
+        let newState = state |> stepState
+        newState |> outputPermutation, (newState, inc) |> Pcg
 
     /// Advances a PCG-64 state forward by `delta` steps, but does so in logarithmic time.
     [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]

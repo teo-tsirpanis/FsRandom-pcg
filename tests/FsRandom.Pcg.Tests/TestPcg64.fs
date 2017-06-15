@@ -15,10 +15,12 @@ open FsRandom
 
 let testProperty = TestUtils.testProperty
 
+let ftestProperty = TestUtils.ftestProperty
+
 [<Tests>]
 let properties =
     testList "PCG-64 tests" [
-        TestUtils.testProperty "advance is an inverse of backstep" <| fun x delta ->
+        testProperty "advance is an inverse of backstep" <| fun x delta ->
             x |> Pcg64.advance delta |> Pcg64.backstep delta |> ((=) x)
             
         testProperty "advance 1 is the same thing with get" <| fun x ->

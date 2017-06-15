@@ -36,3 +36,12 @@ let testProperty x =
     testPropertyWithConfig
         {FsCheckConfig.defaultConfig with
             arbitrary = [typeof<Generators>]} x
+
+// chosen by many fair dice rolls.
+// guaranteed to be random.
+let stdGen = 315111822, 1862231071
+
+let ftestProperty x = 
+    ftestPropertyWithConfig stdGen
+        {FsCheckConfig.defaultConfig with
+            arbitrary = [typeof<Generators>]} x

@@ -57,6 +57,7 @@ module LcgAdvance =
     let advance128 state delta a b =
         // let an = modExp128 a delta
         // an * state + ((an - UInt128.One) / (a - UInt128.One)) * b
+        printfn "State: %A Delta: %A a: %A b: %A" state delta a b
         let mutable delta = delta
         let mutable curmult = a
         let mutable curplus = b
@@ -64,9 +65,11 @@ module LcgAdvance =
         let mutable accplus = UInt128.Zero
         while delta > UInt128.Zero do
             if delta &&& UInt128.One <> UInt128.Zero then
+                printfn "%A is odd" delta
                 accmult <- accmult * curmult
                 accplus <- accplus * curmult + curplus
             curplus <- (curmult + UInt128.One) * curplus
             curmult <- curmult * curmult
             delta <- delta >>> 1
-        accmult * state + accplus
+        printfn "accmult: %A accplus: %A" accmult accplus
+        (accmult * state) + accplus
