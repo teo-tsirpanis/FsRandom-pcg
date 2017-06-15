@@ -57,7 +57,7 @@ module Pcg64 =
     [<CompiledName("GetInc")>]
     let getInc (Pcg(_, inc)) = inc
 
-    /// Generates a random number from theprovided state.
+    /// Generates a random number from the provided state.
     /// Returns a tuple consisting of the new number and the new state.
     [<CompiledName("Get")>]
     let get state =
