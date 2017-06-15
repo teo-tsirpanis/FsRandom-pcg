@@ -97,7 +97,7 @@ Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with Configuration = "Rele
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
-Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto id)
+Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = shouldPushToAppVeyor}))
 
 Target "CheckPendingChanges"
     (fun _ ->
