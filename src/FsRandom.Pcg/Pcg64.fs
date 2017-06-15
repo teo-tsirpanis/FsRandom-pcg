@@ -41,7 +41,7 @@ module Pcg64 =
 
     let private defaultIncrement = UInt128(6364136223846793005UL, 1442695040888963407UL)
 
-    let private stepState (Pcg(inc, state)) = (state * defaultMultiplier) + inc
+    let private stepState (Pcg(state, inc)) = (state * defaultMultiplier) + inc
 
     let private outputPermutation (state: UInt128) =
         let rotr (value: uint64) (rot: uint32) =
