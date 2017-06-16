@@ -3,7 +3,7 @@ build_script:
   - 
     cmd: "build.cmd Release"
 environment:
-  my_variable:
+  nuget_key:
     secure: kJDsbnsi5l4w3fpFkTdIueBLc/NhzjYSYaNQ8hflQaGhyjK8H5a+r6l3t8BjPhCB
 image: "Visual Studio 2017"
 skip_tags: true

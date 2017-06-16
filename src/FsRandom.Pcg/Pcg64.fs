@@ -64,13 +64,13 @@ module Pcg64 =
         newState |> outputPermutation, (newState, inc) |> Pcg
 
     /// Advances a PCG-64 state forward by `delta` steps, but does so in logarithmic time.
-    [<CompiledName("Advance"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
+    [<CompiledName("Advance")>]
     let advance delta (Pcg(state, inc)) =
         (LcgAdvance.advance128 state delta defaultMultiplier inc, inc)
         |> Pcg
     
     /// Moves the PCG-64 state backwards by `delta` steps, but does so in logarithmic time.
-    [<CompiledName("Backstep"); CompilerMessage("This method is known for not working.", 10001, IsHidden=false, IsError=false)>]
+    [<CompiledName("Backstep")>]
     let backstep delta state = advance (UInt128.op_UnaryNegation delta) state
 
     /// Creates a PCG-64 state from the given seed and stream index.

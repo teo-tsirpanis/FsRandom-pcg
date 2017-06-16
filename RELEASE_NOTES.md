@@ -1,7 +1,7 @@
-### New in 1.3.0 (Released 2017/06/08)
+### New in 1.3.0 (Released 2017/06/16)
 * Breaking Change: Removed support for conversions between UInt128 and bigint.
 * The LcgAdvance module is now public.
-* Added methods to efficiently advance PCG-64 states (They are known to have bugs).
+* Added methods to efficiently advance PCG-64 states.
 * Added prettier C# names for functions (for example get becomes Get etc).
 
 ### New in 1.2.0 (Released 2017/04/18)

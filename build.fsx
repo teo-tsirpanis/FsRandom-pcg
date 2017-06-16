@@ -49,22 +49,22 @@ let attributes =
 
 let isAppVeyorBuild = buildServer = AppVeyor
 
+let commitMessage = environVar "APPVEYOR_REPO_COMMIT_MESSAGE"
+
 let hasNuGetKey =
-    environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
+    environVarOrNone "nuget_key"
     |> Option.isSome
 
 let shouldPushToGithub =
     // AppVeyor will push a tag first, and then the build for the tag will publish to NuGet.org
     let bumpsVersion =
-        CommitMessage.getCommitMessage currentDirectory
+        commitMessage
         |> toLower
-        |> startsWith "bump version"
+        |> startsWith "bumped version"
+    tracefn "Last commit message: %s" commitMessage
+    tracefn "Does the last commit message bump the version? %b" bumpsVersion
     match buildServer with
     | AppVeyor -> bumpsVersion && hasNuGetKey
-    | LocalBuild ->
-        if bumpsVersion then
-            tracefn "Running from local build; it is assumed that a GitHub release is intended..."
-        bumpsVersion
     | _ -> false
 
 let packFunc proj (x: DotNetCli.PackParams) =
@@ -150,8 +150,8 @@ Target "PrintStatus"
     ==> "Pack"
     ==> "Test"
     =?> ("AppVeyorPush", isAppVeyorBuild)
-    =?> ("PushToNuGet", shouldPushToGithub)
-    =?> ("GitTag", shouldPushToGithub)
+    // =?> ("PushToNuGet", shouldPushToGithub)
+    // =?> ("GitTag", shouldPushToGithub)
     ==> "Release"
 "Build" ==> "Test"
 // start build
