@@ -21,6 +21,11 @@ let relNotes = ReleaseNotesHelper.LoadReleaseNotes "RELEASE_NOTES.md"
 [<Literal>]
 let BuildDir = "build/"
 
+[<Literal>]
+let DotNetVersion = "2.0.0-preview1-005977"
+
+let isDotNetInstalled = DotNetCli.getVersion() = DotNetVersion
+
 // Filesets
 let codeProjects = !!"./src/**/*.fsproj"
 let testProjects = !!"./tests/**/*.fsproj"
@@ -85,6 +90,11 @@ let makeAppVeyorStartInfo pkg =
     }
 
 // Targets
+Target "InstallNetCore"
+    (fun _ ->
+        DotNetCli.InstallDotNetSDK DotNetVersion
+        |> tracefn "Installed .NET Core SDK version %s in %s" DotNetVersion)
+
 Target "Clean" (fun _ -> DotNetCli.RunCommand id "clean")
 
 Target "CleanBuildOutput" (fun _ -> DeleteDir BuildDir)
@@ -135,8 +145,9 @@ Target "PrintStatus"
         tracefn "Will the packages be pushed to GitHub/NuGet? %b." shouldPushToGithub)
 
 // Build order
-"PrintStatus" ==>
-"CleanBuildOutput"
+"PrintStatus" 
+    =?> ("InstallNetCore", not isDotNetInstalled)
+    ==> "CleanBuildOutput"
     ==> "Clean"
     ==> "AssemblyInfo"
     ==> "Restore"
