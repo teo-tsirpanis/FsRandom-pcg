@@ -40,9 +40,9 @@ let attributes =
       Attribute.FileVersion relNotes.AssemblyVersion
       Attribute.InformationalVersion relNotes.AssemblyVersion]
 
-let shouldPushToAppVeyor = buildServer = AppVeyor
+let isAppVeyorBuild = buildServer = AppVeyor
 
-let isPullrequest =
+let hasNuGetKey =
     environVarOrNone "APPVEYOR_PULL_REQUEST_NUMBER"
     |> Option.isSome
 
@@ -53,7 +53,7 @@ let shouldPushToGithub =
         |> toLower
         |> startsWith "bump version"
     match buildServer with
-    | AppVeyor -> bumpsVersion && not isPullrequest
+    | AppVeyor -> bumpsVersion && hasNuGetKey
     | LocalBuild ->
         if bumpsVersion then
             tracefn "Running from local build; it is assumed that a GitHub release is intended..."
@@ -97,7 +97,7 @@ Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with Configuration = "Rele
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
-Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = shouldPushToAppVeyor}))
+Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild}))
 
 Target "CheckPendingChanges"
     (fun _ ->
@@ -130,8 +130,8 @@ Target "PrintStatus"
         tracefn "Current directory: %s." currentDirectory
         tracefn "Git branch: %s." <| Information.getBranchName currentDirectory
         tracefn "Author of the last commit: %s." <| environVar "APPVEYOR_REPO_COMMIT_AUTHOR"
-        tracefn "Is the build from a pull request? %b." isPullrequest
-        tracefn "Will the packages be pushed to AppVeyor? %b." shouldPushToAppVeyor
+        tracefn "Is a NuGet key defined? %b." hasNuGetKey
+        tracefn "Will the packages be pushed to AppVeyor? %b." isAppVeyorBuild
         tracefn "Will the packages be pushed to GitHub/NuGet? %b." shouldPushToGithub)
 
 // Build order
@@ -144,7 +144,7 @@ Target "PrintStatus"
     ==> "Pack"
     ==> "Test"
     ==> "CheckPendingChanges"
-    =?> ("AppVeyorPush", shouldPushToAppVeyor)
+    =?> ("AppVeyorPush", isAppVeyorBuild)
     =?> ("PushToNuGet", shouldPushToGithub)
     =?> ("GitTag", shouldPushToGithub)
     ==> "Release"
