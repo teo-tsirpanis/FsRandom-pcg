@@ -24,6 +24,8 @@ let BuildDir = "build/"
 [<Literal>]
 let DotNetVersion = "2.0.0-preview1-005977"
 
+let mutable dotNetTools = "dotnet"
+
 let isDotNetInstalled = DotNetCli.getVersion() = DotNetVersion
 
 // Filesets
@@ -70,6 +72,7 @@ let packFunc proj (x: DotNetCli.PackParams) =
         Project = proj
         Configuration = "Release"
         OutputPath = ".." </> Directory.GetCurrentDirectory() @@ BuildDir
+        ToolPath = dotNetTools
         AdditionalArgs =
             [
                 "--no-build"
@@ -92,29 +95,21 @@ let makeAppVeyorStartInfo pkg =
 // Targets
 Target "InstallNetCore"
     (fun _ ->
-        DotNetCli.InstallDotNetSDK DotNetVersion
-        |> tracefn "Installed .NET Core SDK version %s in %s" DotNetVersion)
+        dotNetTools <- DotNetCli.InstallDotNetSDK DotNetVersion)
 
-Target "Clean" (fun _ -> DotNetCli.RunCommand id "clean")
+Target "Clean" (fun _ -> DotNetCli.RunCommand (fun p -> {p with ToolPath = dotNetTools}) "clean")
 
 Target "CleanBuildOutput" (fun _ -> DeleteDir BuildDir)
 
 Target "AssemblyInfo" (fun _ -> CreateFSharpAssemblyInfo "AssemblyVersionInfo.fs" attributes)
 
-Target "Restore" (fun _ -> DotNetCli.Restore id)
+Target "Restore" (fun _ -> DotNetCli.Restore (fun p -> {p with ToolPath = dotNetTools}))
 
-Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with Configuration = "Release"}))
+Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with ToolPath = dotNetTools; Configuration = "Release"}))
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
 Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild}))
-
-Target "CheckPendingChanges"
-    (fun _ ->
-        if not <| Git.Information.isCleanWorkingCopy currentDirectory then
-            failwith "Repository is not clean."
-        else
-            tracefn "Repository is clean.")
 
 Target "PushToNuGet" (fun _ -> Paket.Push (pushFunc "https://api.nuget.org/v3/index.json" "nuget_key"))
 
@@ -154,7 +149,6 @@ Target "PrintStatus"
     ==> "Build"
     ==> "Pack"
     ==> "Test"
-    ==> "CheckPendingChanges"
     =?> ("AppVeyorPush", isAppVeyorBuild)
     =?> ("PushToNuGet", shouldPushToGithub)
     =?> ("GitTag", shouldPushToGithub)
