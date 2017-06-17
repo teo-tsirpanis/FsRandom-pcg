@@ -112,32 +112,32 @@ let weightedSample n weight source =
    else
       // Efraimidis and Spirakis (2006) Weighted random sampling with a reservoir (DOI: 10.1016/j.ipl.2005.11.003)
       GeneratorFunction (fun s0 ->
-         let s = ref s0
-         let result = ref BinarySearchTree.empty
+         let mutable s = s0
+         let mutable result = BinarySearchTree.empty
          for index = 0 to n - 1 do
-            let u, s' = Random.next ``[0, 1)`` !s
-            s := s'
+            let u, s' = Random.next ``[0, 1)`` s
+            s <- s'
             let key = u ** (1.0 / weight.[index])
-            result := BinarySearchTree.insert key source.[index] !result
-         let index = ref n
-         while !index < size do
-            let threshold = BinarySearchTree.min !result |> fst
-            let u, s' = Random.next ``[0, 1)`` !s
-            s := s'
+            result <- BinarySearchTree.insert key source.[index] result
+         let mutable index = n
+         while index < size do
+            let threshold = BinarySearchTree.min result |> fst
+            let u, s' = Random.next ``[0, 1)`` s
+            s <- s'
             let x = log u / log threshold
-            let weightSum = ref 0.0
-            while !index < size && !weightSum < x do
-               weightSum := !weightSum + weight.[!index]
-               incr index
-            if !weightSum >= x then
-               let index = !index - 1
+            let mutable weightSum = 0.0
+            while index < size && weightSum < x do
+               weightSum <- weightSum + weight.[index]
+               index <- index + 1
+            if weightSum >= x then
+               let index = index - 1
                let w = weight.[index]
-               let u, s' = Random.next ``[0, 1)`` !s
-               s := s'
+               let u, s' = Random.next ``[0, 1)`` s
+               s <- s'
                let r = let t = threshold ** w in t + u * (1.0 - t)
                let key = r ** (1.0 / w)
-               result := BinarySearchTree.removeMinimum !result |> BinarySearchTree.insert key source.[index]
-         !result |> (BinarySearchTree.toList >> List.map snd >> List.toArray), !s
+               result <- BinarySearchTree.removeMinimum result |> BinarySearchTree.insert key source.[index]
+         result |> (BinarySearchTree.toList >> List.map snd >> List.toArray), s
       )
 
 [<CompiledName("WeightedSampleOne")>]

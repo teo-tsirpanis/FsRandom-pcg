@@ -81,17 +81,17 @@ let certificatePeriod (parameter : SfmtParams) vector =
       inner <- inner ^^^ (inner >>> i)
    inner <- inner &&& 1u
    if inner <> 1u then
-      let incomplete = ref true
+      let mutable incomplete = true
       let mutable index = 0
-      while !incomplete && index < Array.length parity do
+      while incomplete && index < Array.length parity do
          let mutable j = 0
-         let work = ref 1u
-         while !incomplete && j < 32 do
-            if !work &&& parity.[index] <> 0u then
-               W128.Array.update index (fun value -> value ^^^ !work) vector
-               incomplete := false
+         let mutable work = 1u
+         while incomplete && j < 32 do
+            if work &&& parity.[index] <> 0u then
+               W128.Array.update index (fun value -> value ^^^ work) vector
+               incomplete <- false
             j <- j + 1
-            work := !work <<< 1
+            work <- work <<< 1
          index <- index + 1
    vector
 

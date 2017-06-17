@@ -39,11 +39,11 @@ module Standard =
       kn, fn, wn
    [<CompiledName("Normal")>]
    let normal = GeneratorFunction (fun s0 ->
-      let s = ref s0
+      let mutable s = s0
       let mutable result = None
       while result.IsNone do
-         let u, s' = Random.next rawBits !s
-         s := s'
+         let u, s' = Random.next rawBits s
+         s <- s'
          let i = int (u &&& 0b11111111uL)
          let u = u >>> k0
          let sign = if u &&& 0x1uL = 0uL then 1.0 else -1.0
@@ -53,9 +53,9 @@ module Standard =
             result <- Some (sign * ux)
          elif i = n - 1 then
             while result.IsNone do
-               let u1, s' = Random.next ``[0, 1)`` !s
+               let u1, s' = Random.next ``[0, 1)`` s
                let u2, s' = Random.next ``[0, 1)`` s'
-               s := s'
+               s <- s'
                let y = -log (1.0 - u1) / r
                let z = -log (u2)
                if y * y <= z + z then
@@ -63,11 +63,11 @@ module Standard =
          else
             let ux = float u * wn.[i]
             let fx = f ux
-            let u, s' = Random.next ``[0, 1)`` !s
-            s := s'
+            let u, s' = Random.next ``[0, 1)`` s
+            s <- s'
             if u * (fn.[i] - fn.[i + 1]) <= fx - fn.[i + 1] then
                result <- Some (ux * sign)
-      result.Value, !s
+      result.Value, s
    )
 
    // random number distributed gamma for alpha < 1 (Best 1983).
@@ -77,8 +77,8 @@ module Standard =
       let c3 = 1.0 / alpha
       let mutable state = s0
       let mutable result = 0.0
-      let incomplete = ref true
-      while !incomplete do
+      let mutable incomplete = true
+      while incomplete do
          let u1, s1 = Random.next ``(0, 1)`` state
          let u2, s' = Random.next ``(0, 1)`` s1
          state <- s'
@@ -87,13 +87,13 @@ module Standard =
             let x = c1 * v ** c3
             if u2 <= (2.0 - x) / (2.0 + x) || u2 <= exp (-x) then
                result <- x
-               incomplete := false
+               incomplete <- false
          else
             let x = -log (c1 * c3 * (c2 - v));
             let y = x / c1;
             if u2 * (alpha + y - alpha * y) <= 1.0 || u2 <= y ** (alpha - 1.0) then
                result <- x
-               incomplete := false
+               incomplete <- false
       result, state
 
    // random number distributed gamma for alpha < 1 (Marsaglia & Tsang 2001).
@@ -102,8 +102,8 @@ module Standard =
       let c2 = 1.0 / sqrt (9.0 * c1)
       let mutable state = s0
       let mutable result = 0.0
-      let incomplete = ref true
-      while !incomplete do
+      let mutable incomplete = true
+      while incomplete do
          let z, s' = Random.next normal state
          state <- s'
          let t = 1.0 + c2 * z;
@@ -113,7 +113,7 @@ module Standard =
             state <- s'
             if u < 1.0 - 0.0331 * pown z 4 || log u < 0.5 * z * z + c1 * (1.0 - v + log v) then
                result <- c1 * v
-               incomplete := false
+               incomplete <- false
       result, state
    // random number distributed gamma for alpha is integer.
    let gammaInt alpha s0 =
@@ -351,28 +351,28 @@ let poisson lambda =
       let m' = float m
       let d = exp <| -lambda + m' * log lambda - loggamma (m' + 1.0)
       GeneratorFunction (fun s0 ->
-         let xu = ref m
-         let xl = ref m
+         let mutable xu = m
+         let mutable xl = m
          let mutable pu = d
          let mutable pl = d
          let mutable u, s' = Random.next ``[0, 1)`` s0
          let mutable v = u - pu
-         let mutable result = if v <= 0.0 then Some (!xu) else None
+         let mutable result = if v <= 0.0 then Some (xu) else None
          while result.IsNone do
             u <- v
-            if !xl > 0 then
-               pl <- pl * c * float !xl
-               decr xl
+            if xl > 0 then
+               pl <- pl * c * float xl
+               xl <- xl - 1
                v <- u - pl
                if v > 0.0 then
                   u <- v
                else
-                  result <- Some (!xl)
+                  result <- Some (xl)
             if result.IsNone then
-               incr xu
-               pu <- pu * lambda / float !xu
+               xu <- xu + 1
+               pu <- pu * lambda / float xu
                v <- u - pu
-               result <- if v <= 0.0 then Some (!xu) else None
+               result <- if v <= 0.0 then Some (xu) else None
          result.Value, s'
       )
 
@@ -408,13 +408,13 @@ let binomial (n, probability) =
       outOfRange "probability" "`probability' must be in the range of (0, 1)."
    else
       GeneratorFunction (fun s0 ->
-         let count = ref 0
+         let mutable count = 0
          let mutable s = s0
          for i = 1 to n do
             let u, s' = Random.next ``[0, 1]`` s
-            if u <= probability then incr count
+            if u <= probability then count <- count + 1
             s <- s'
-         !count, s
+         count, s
       )
 
 [<CompiledName("NegativeBinomial")>]
@@ -530,11 +530,11 @@ module Seq =
    let markovChain generator =
       let f = generator >> Random.next
       fun x0 s0 -> seq {
-         let x = ref x0
-         let s = ref s0
+         let mutable x = x0
+         let mutable s = s0
          while true do
-            let x', s' = f !x !s
+            let x', s' = f x s
             yield x'
-            x := x'
-            s := s'
+            x <- x'
+            s <- s'
       }

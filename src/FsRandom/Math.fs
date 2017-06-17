@@ -143,11 +143,11 @@ module Matrix =
                      yield (i, j), abs eigenvalues.[i, j]
          }
          |> Seq.maxBy snd
-      let loop = ref true
-      while !loop do
+      let mutable loop = true
+      while loop do
          let (p, q), max = findMax ()
          if max < epsilon then
-            loop := false
+            loop <- false
          else
             let app = eigenvalues.[p, p]
             let aqq = eigenvalues.[q, q]
