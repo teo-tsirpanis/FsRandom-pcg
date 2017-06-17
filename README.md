@@ -1,6 +1,7 @@
 # The PCG Pseudo-Random Number Generator for F# #
 
 [![NuGet](https://img.shields.io/nuget/v/FsRandom.Pcg.svg)](https://www.nuget.org/packages/FsRandom.Pcg)
+[![AppVeyor](https://img.shields.io/appveyor/ci/teo-tsirpanis/FsRandom-Pcg.svg?style=flat-square)](https://ci.appveyor.com/project/teo-tsirpanis/fsrandom-pcg)
 
 ## About PCG
 
