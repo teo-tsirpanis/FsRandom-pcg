@@ -2,16 +2,16 @@
 module FsRandom.Utility
 
 open System
+open SoftWx.Numerics
 open Microsoft.FSharp.Core.LanguagePrimitives
 
 [<CompiledName("DefaultState")>]
-let defaultState = createState xorshift (123456789u, 362436069u, 521288629u, 88675123u)
+let defaultState = UInt128 (0x6174771983855994UL , 0x248576647718BABEUL) |> Pcg64.createOneSeq |> createState Pcg64.get
 [<CompiledName("CreateRandomState")>]
 let createRandomState () =
-   let guid = Guid.NewGuid ()
-   let bytes = guid.ToByteArray ()
-   let seed = Array.init 4 (fun i -> BitConverter.ToUInt32 (bytes, i * 4))
-   createState xorshift (seed.[0], seed.[1], seed.[2], seed.[3])
+   let seed = UInt128.random()
+   let state = seed |> Pcg64.createOneSeq
+   createState Pcg64.get state
 
 [<CompiledName("RandomSign")>]
 let inline randomSign () =

@@ -5,7 +5,8 @@
     <Authors>Theodore Tsirpanis</Authors>
     <Description>Implementation of the PCG Pseudorandom number generator for FsRandom. FsRandom must be installed separately.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License.</Copyright>
+    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License.
+Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licensed under the BSD 3-clause License.</Copyright>
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
@@ -35,6 +36,9 @@
     <Compile Include="..\FsRandom\Statistics.fs" />
     <Compile Include="..\FsRandom\String.fsi" />
     <Compile Include="..\FsRandom\String.fs" />
+    <Compile Include="LcgAdvance.fs" />
+    <Compile Include="Pcg32.fs" />
+    <Compile Include="Pcg64.fs" />
     <Compile Include="..\FsRandom\Utility.fsi" />
     <Compile Include="..\FsRandom\Utility.fs" />
     <Compile Include="..\FsRandom\MersenneTwister.fsi" />
@@ -44,9 +48,6 @@
     <Compile Include="..\FsRandom\FsRandomExtensions.fsi" />
     <Compile Include="..\FsRandom\FsRandomExtensions.fs" />
     <Compile Include="..\..\AssemblyVersionInfo.fs" />
-    <Compile Include="LcgAdvance.fs" />
-    <Compile Include="Pcg32.fs" />
-    <Compile Include="Pcg64.fs" />
     <Compile Include="SystemRandom.fs" />
   </ItemGroup>
   <ItemGroup>
