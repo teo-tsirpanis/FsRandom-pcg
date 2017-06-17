@@ -49,7 +49,7 @@ let attributes =
 
 let isAppVeyorBuild = buildServer = AppVeyor
 
-let commitMessage = environVar "APPVEYOR_REPO_COMMIT_MESSAGE"
+let commitMessage = environVarOrDefault "APPVEYOR_REPO_COMMIT_MESSAGE" ""
 
 let hasNuGetKey =
     environVarOrNone "nuget_key"
