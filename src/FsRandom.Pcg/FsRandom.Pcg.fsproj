@@ -16,6 +16,34 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersionInfo.fs" />
+    <Compile Include="..\FsRandom\RuntimeHelper.fs" />
+    <Compile Include="..\FsRandom\Collections.fs" />
+    <Compile Include="..\FsRandom\Math.fs" />
+    <Compile Include="..\FsRandom\RandomNumberGenerator.fsi" />
+    <Compile Include="..\FsRandom\RandomNumberGenerator.fs" />
+    <Compile Include="..\FsRandom\Random.fsi" />
+    <Compile Include="..\FsRandom\Random.fs" />
+    <Compile Include="..\FsRandom\Seq.fsi" />
+    <Compile Include="..\FsRandom\Seq.fs" />
+    <Compile Include="..\FsRandom\Array.fsi" />
+    <Compile Include="..\FsRandom\Array.fs" />
+    <Compile Include="..\FsRandom\Array2D.fsi" />
+    <Compile Include="..\FsRandom\Array2D.fs" />
+    <Compile Include="..\FsRandom\List.fsi" />
+    <Compile Include="..\FsRandom\List.fs" />
+    <Compile Include="..\FsRandom\Statistics.fsi" />
+    <Compile Include="..\FsRandom\Statistics.fs" />
+    <Compile Include="..\FsRandom\String.fsi" />
+    <Compile Include="..\FsRandom\String.fs" />
+    <Compile Include="..\FsRandom\Utility.fsi" />
+    <Compile Include="..\FsRandom\Utility.fs" />
+    <Compile Include="..\FsRandom\MersenneTwister.fsi" />
+    <Compile Include="..\FsRandom\MersenneTwister.fs" />
+    <Compile Include="..\FsRandom\SimdOrientedFastMersenneTwister.fsi" />
+    <Compile Include="..\FsRandom\SimdOrientedFastMersenneTwister.fs" />
+    <Compile Include="..\FsRandom\FsRandomExtensions.fsi" />
+    <Compile Include="..\FsRandom\FsRandomExtensions.fs" />
+    <Compile Include="..\..\AssemblyVersionInfo.fs" />
     <Compile Include="LcgAdvance.fs" />
     <Compile Include="Pcg32.fs" />
     <Compile Include="Pcg64.fs" />
