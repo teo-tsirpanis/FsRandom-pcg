@@ -1,0 +1,26 @@
+<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="RuntimeHelper.fs" />
+    <Compile Include="RandomBuilderTest.fs" />
+    <Compile Include="RandomTest.fs" />
+    <Compile Include="ArrayTest.fs" />
+    <Compile Include="Array2DTest.fs" />
+    <Compile Include="ListTest.fs" />
+    <Compile Include="StatisticsTest.fs" />
+    <Compile Include="StringTest.fs" />
+    <Compile Include="UtilityTest.fs" />
+    <Compile Include="Issues.fs" />
+    <!--<Compile Include="MersenneTwisterTest.fs" />
+    <Compile Include="SimdOrientedFastMersenneTwisterTest.fs" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Net.Sdk" Version="1.0.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FsRandom.Pcg\FsRandom.Pcg.fsproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

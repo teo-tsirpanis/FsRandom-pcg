@@ -13,6 +13,9 @@ group Test
     nuget FSharp.Core
     nuget Expecto
     nuget Expecto.FsCheck
+    nuget FsUnit 
+    nuget MathNet.Numerics ~> 3.6
+    nuget NUnit ~> 2.6
 
 group Build
     source https://api.nuget.org/v3/index.json

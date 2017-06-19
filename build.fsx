@@ -42,6 +42,7 @@ let attributes =
       Attribute.Copyright
           "(c) 2016 Theodore Tsirpanis. Licensed under the MIT License."
       Attribute.Metadata("Build Date", buildDate)
+      Attribute.InternalsVisibleTo "FsRandom.Tests"
 
       Attribute.Version relNotes.AssemblyVersion
       Attribute.FileVersion relNotes.AssemblyVersion
