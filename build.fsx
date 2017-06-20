@@ -31,7 +31,8 @@ let isDotNetInstalled = DotNetCli.getVersion() = DotNetVersion
 // Filesets
 let codeProjects = !!"./src/**/*.fsproj"
 let testProjects = !!"./tests/**/*.fsproj"
-let testAssemblies = !!"./tests/**/bin/Release/net462/*.exe"
+let expectoTests = !!"./tests/**/bin/Release/net462/*.exe"
+let nUnitTests = !!"./tests/**/bin/Release/net462/FsRandom.Tests.dll"
 let packages = !!"./build/**/*.nupkg"
 
 let attributes =
@@ -110,7 +111,11 @@ Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with ToolPath = dotNetTool
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
-Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild}))
+Target "Test"
+    (fun _ ->
+        expectoTests |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild})
+        // nUnitTests |> NUnit id
+    )
 
 Target "PushToNuGet" (fun _ -> Paket.Push (pushFunc "https://api.nuget.org/v3/index.json" "nuget_key"))
 

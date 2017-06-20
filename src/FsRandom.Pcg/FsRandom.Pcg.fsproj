@@ -47,7 +47,6 @@ Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licens
     <Compile Include="..\FsRandom\SimdOrientedFastMersenneTwister.fs" />
     <Compile Include="..\FsRandom\FsRandomExtensions.fsi" />
     <Compile Include="..\FsRandom\FsRandomExtensions.fs" />
-    <Compile Include="..\..\AssemblyVersionInfo.fs" />
     <Compile Include="SystemRandom.fs" />
   </ItemGroup>
   <ItemGroup>

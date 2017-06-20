@@ -571,12 +571,12 @@ RESTRICTION: == net462
 NUGET
   remote: https://api.nuget.org/v3/index.json
     Argu (3.7)
-    Expecto (4.2.1)
+    Expecto (5.0)
       Argu (>= 3.7)
       FSharp.Core (>= 4.1.12)
-      Mono.Cecil (>= 0.9.6.4)
-    Expecto.FsCheck (4.2.1)
-      Expecto (>= 4.2.1)
+      Mono.Cecil (>= 0.10.0-beta5)
+    Expecto.FsCheck (5.0)
+      Expecto (>= 5.0)
       FsCheck (>= 2.8)
       FSharp.Core (>= 4.1.12)
     FsCheck (2.9)
@@ -586,5 +586,5 @@ NUGET
       FSharp.Core (>= 3.1.2.5)
       NUnit (2.6.4)
     MathNet.Numerics (3.19)
-    Mono.Cecil (0.9.6.4)
+    Mono.Cecil (0.10.0-beta6)
     NUnit (2.6.4)
