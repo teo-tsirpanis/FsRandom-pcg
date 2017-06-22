@@ -28,11 +28,10 @@ let chisqTest distribution samples =
       let residual = 1.0 - sumP
       let sampled =
          samples
-         |> Array.map (fun (k, obs) ->
+         |> Array.sumBy (fun (k, obs) ->
             let npi = float n * f k
             pown (float obs - npi) 2 / npi
          )
-         |> Array.sum
       if residual > 1.0e-6 then
          sampled + float n * residual
       else
