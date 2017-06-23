@@ -15,7 +15,8 @@ group Test
     nuget Expecto.FsCheck
     nuget FsUnit 
     nuget MathNet.Numerics ~> 3.6
-    nuget NUnit ~> 2.6
+    nuget NUnit
+    nuget NUnit.ConsoleRunner
 
 group Build
     source https://api.nuget.org/v3/index.json

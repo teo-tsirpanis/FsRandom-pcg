@@ -114,7 +114,11 @@ Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 Target "Test"
     (fun _ ->
         expectoTests |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild})
-        // nUnitTests |> NUnit id
+        nUnitTests
+            |> NUnit3
+                (fun p ->
+                    {p with
+                        ToolPath = "./packages/test/NUnit.ConsoleRunner/tools/nunit3-console.exe"})
     )
 
 Target "PushToNuGet" (fun _ -> Paket.Push (pushFunc "https://api.nuget.org/v3/index.json" "nuget_key"))
@@ -146,7 +150,7 @@ Target "PrintStatus"
         tracefn "Will the packages be pushed to GitHub/NuGet? %b." shouldPushToGithub)
 
 // Build order
-"PrintStatus" 
+"PrintStatus"
     =?> ("InstallNetCore", not isDotNetInstalled)
     ==> "CleanBuildOutput"
     ==> "Clean"
