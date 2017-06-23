@@ -88,6 +88,23 @@ let pushFunc url apiEnv (x: Paket.PaketPushParams) =
         PublishUrl = url
         WorkingDir = BuildDir}
 
+let isConnectedToInternet = lazy (
+    try
+        Net.Dns.GetHostAddresses "www.google.com" |> ignore
+        true
+        // If google is offline, then it's highly likely that a thermonuclear event is underway.
+        // This also means that there's neither NuGet nor GitHub.
+        // Most probably, there's no internet either❗
+        // Fortunately, there will be no Instagram. 😌
+        // But also, there will be no expanding brain memes. 😱
+        // And why would one want to build this thing in such inadequate occasion?
+        // Or just your 💻 is ofline. 🙃
+    with
+    | :? Net.Sockets.SocketException ->
+        traceFAKE "There is no connection to the Internet. The packages will not be restored. Errors may follow..."
+        false
+    | _ -> reraise())
+
 let makeAppVeyorStartInfo pkg =
     { defaultParams with
         Program = "appveyor"
@@ -162,7 +179,7 @@ Target "PrintStatus"
     ==> "CleanBuildOutput"
     ==> "Clean"
     ==> "AssemblyInfo"
-    ==> "Restore"
+    =?> ("Restore", isConnectedToInternet.Value)
     ==> "Build"
     ==> "Pack"
     ==> "Test"
