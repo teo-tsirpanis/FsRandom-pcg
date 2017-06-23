@@ -1,6 +1,6 @@
 source https://api.nuget.org/v3/index.json
 
-framework: netstandard1.6
+framework: net45, netstandard1.6
 
 nuget FSharp.Core
 nuget SoftWx.Numerics.Portable
