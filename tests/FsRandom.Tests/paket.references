@@ -2,4 +2,4 @@ group Test
     FSharp.Core
     FsUnit
     MathNet.Numerics
-    NUnit
+    NUnitLite

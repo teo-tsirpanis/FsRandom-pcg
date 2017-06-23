@@ -114,11 +114,18 @@ Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 Target "Test"
     (fun _ ->
         expectoTests |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild})
+
+        let makeStartInfo x =
+            { defaultParams with
+                Program = x
+            }
+
         nUnitTests
-            |> NUnit3
-                (fun p ->
-                    {p with
-                        ToolPath = "./packages/test/NUnit.ConsoleRunner/tools/nunit3-console.exe"})
+        |> Seq.map (makeStartInfo >> asyncShellExec)
+        |> Async.Parallel
+        |> Async.RunSynchronously
+        |> Array.filter ((<>) 0)
+        |> Array.iter (failwithf "A NUnit test failed with error code %d.")
     )
 
 Target "PushToNuGet" (fun _ -> Paket.Push (pushFunc "https://api.nuget.org/v3/index.json" "nuget_key"))

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RuntimeHelper.fs" />
@@ -14,6 +15,7 @@
     <Compile Include="StringTest.fs" />
     <Compile Include="UtilityTest.fs" />
     <Compile Include="Issues.fs" />
+    <Compile Include="Program.fs" />
     <!--<Compile Include="MersenneTwisterTest.fs" />
     <Compile Include="SimdOrientedFastMersenneTwisterTest.fs" />-->
   </ItemGroup>
