@@ -10,15 +10,10 @@ module List =
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module Array =
    let accumulate accumulation array =
-      if Array.length array = 0 then
+      if Array.isEmpty array then
          invalidArg "array" "Empty array."
       else
-         let size = Array.length array
-         let result = Array.zeroCreate size
-         result.[0] <- array.[0]
-         for index = 1 to size - 1 do
-            result.[index] <- accumulation result.[index - 1] array.[index]
-         result
+         Array.scan accumulation array.[0] array
 
 type Tree<'a> =
    | Empty

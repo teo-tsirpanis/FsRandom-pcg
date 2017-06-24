@@ -13,7 +13,6 @@ Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licens
     <TargetFrameworks>net45; netstandard1.6</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>$(OutputPath)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersionInfo.fs" />
