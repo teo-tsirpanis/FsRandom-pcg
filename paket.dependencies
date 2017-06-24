@@ -1,11 +1,12 @@
 source https://api.nuget.org/v3/index.json
 
-framework: netstandard1.6
+framework: net45, netstandard1.6
 
 nuget FSharp.Core
 nuget SoftWx.Numerics.Portable
 
 group Test
+    content: none
     source https://api.nuget.org/v3/index.json
 
     framework: net462
@@ -13,6 +14,9 @@ group Test
     nuget FSharp.Core
     nuget Expecto
     nuget Expecto.FsCheck
+    nuget FsUnit 
+    nuget MathNet.Numerics ~> 3.6
+    nuget NUnitLite
 
 group Build
     source https://api.nuget.org/v3/index.json

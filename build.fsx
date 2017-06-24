@@ -31,7 +31,8 @@ let isDotNetInstalled = DotNetCli.getVersion() = DotNetVersion
 // Filesets
 let codeProjects = !!"./src/**/*.fsproj"
 let testProjects = !!"./tests/**/*.fsproj"
-let testAssemblies = !!"./tests/**/bin/Release/net462/*.exe"
+let expectoTests = !!"./tests/**/bin/Release/net462/*.exe"
+let nUnitTests = !!"./tests/**/bin/Release/net462/FsRandom.Tests.dll"
 let packages = !!"./build/**/*.nupkg"
 
 let attributes =
@@ -42,6 +43,7 @@ let attributes =
       Attribute.Copyright
           "(c) 2016 Theodore Tsirpanis. Licensed under the MIT License."
       Attribute.Metadata("Build Date", buildDate)
+      Attribute.InternalsVisibleTo "FsRandom.Tests"
 
       Attribute.Version relNotes.AssemblyVersion
       Attribute.FileVersion relNotes.AssemblyVersion
@@ -86,6 +88,23 @@ let pushFunc url apiEnv (x: Paket.PaketPushParams) =
         PublishUrl = url
         WorkingDir = BuildDir}
 
+let isConnectedToInternet = lazy (
+    try
+        Net.Dns.GetHostAddresses "www.google.com" |> ignore
+        true
+        // If google is offline, then it's highly likely that a thermonuclear event is underway.
+        // This also means that there's neither NuGet nor GitHub.
+        // Most probably, there's no internet either❗
+        // Fortunately, there will be no Instagram. 😌
+        // But also, there will be no expanding brain memes. 😱
+        // And why would one want to build this thing in such inadequate occasion?
+        // Or just your 💻 is ofline. 🙃
+    with
+    | :? Net.Sockets.SocketException ->
+        traceFAKE "There is no connection to the Internet. The packages will not be restored. Errors may follow..."
+        false
+    | _ -> reraise())
+
 let makeAppVeyorStartInfo pkg =
     { defaultParams with
         Program = "appveyor"
@@ -109,7 +128,22 @@ Target "Build" (fun _ -> DotNetCli.Build (fun p -> {p with ToolPath = dotNetTool
 
 Target "Pack" (fun _ -> codeProjects |> Seq.iter (packFunc >> DotNetCli.Pack))
 
-Target "Test" (fun _ -> testAssemblies |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild}))
+Target "Test"
+    (fun _ ->
+        expectoTests |> Expecto.Expecto (fun p -> {p with FailOnFocusedTests = isAppVeyorBuild})
+
+        let makeStartInfo x =
+            { defaultParams with
+                Program = x
+            }
+
+        nUnitTests
+        |> Seq.map (makeStartInfo >> asyncShellExec)
+        |> Async.Parallel
+        |> Async.RunSynchronously
+        |> Array.filter ((<>) 0)
+        |> Array.iter (failwithf "A NUnit test failed with error code %d.")
+    )
 
 Target "PushToNuGet" (fun _ -> Paket.Push (pushFunc "https://api.nuget.org/v3/index.json" "nuget_key"))
 
@@ -140,12 +174,12 @@ Target "PrintStatus"
         tracefn "Will the packages be pushed to GitHub/NuGet? %b." shouldPushToGithub)
 
 // Build order
-"PrintStatus" 
+"PrintStatus"
     =?> ("InstallNetCore", not isDotNetInstalled)
     ==> "CleanBuildOutput"
     ==> "Clean"
     ==> "AssemblyInfo"
-    ==> "Restore"
+    =?> ("Restore", isConnectedToInternet.Value)
     ==> "Build"
     ==> "Pack"
     ==> "Test"

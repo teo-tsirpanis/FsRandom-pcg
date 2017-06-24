@@ -1,3 +1,7 @@
+### New in 1.4.0 (Released 2017/12/12)
+* Integrated the source code of FsRandom into the project.
+* FsRandom got some improvements (`ref` became `mutable` and so on).
+
 ### New in 1.3.0 (Released 2017/06/16)
 * Breaking Change: Removed support for conversions between UInt128 and bigint.
 * The LcgAdvance module is now public.
