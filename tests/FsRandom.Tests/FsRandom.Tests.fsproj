@@ -1,4 +1,4 @@
-<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
@@ -18,9 +18,6 @@
     <Compile Include="Program.fs" />
     <!--<Compile Include="MersenneTwisterTest.fs" />
     <Compile Include="SimdOrientedFastMersenneTwisterTest.fs" />-->
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.Net.Sdk" Version="1.0.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\FsRandom.Pcg\FsRandom.Pcg.fsproj" />

@@ -11,7 +11,6 @@ open Fake.Git
 open Fake.Testing
 open System
 open System.IO
-open System.Diagnostics
 
 [<Literal>]
 let AppName = "FsRandom.Pcg"
@@ -21,12 +20,7 @@ let relNotes = ReleaseNotesHelper.LoadReleaseNotes "RELEASE_NOTES.md"
 [<Literal>]
 let BuildDir = "build/"
 
-[<Literal>]
-let DotNetVersion = "2.0.0-preview1-005977"
-
 let mutable dotNetTools = "dotnet"
-
-let isDotNetInstalled = DotNetCli.getVersion() = DotNetVersion
 
 // Filesets
 let codeProjects = !!"./src/**/*.fsproj"
@@ -111,11 +105,6 @@ let makeAppVeyorStartInfo pkg =
         CommandLine = sprintf "PushArtifact %s" pkg
     }
 
-// Targets
-Target "InstallNetCore"
-    (fun _ ->
-        dotNetTools <- DotNetCli.InstallDotNetSDK DotNetVersion)
-
 Target "Clean" (fun _ -> DotNetCli.RunCommand (fun p -> {p with ToolPath = dotNetTools}) "clean")
 
 Target "CleanBuildOutput" (fun _ -> DeleteDir BuildDir)
@@ -175,7 +164,6 @@ Target "PrintStatus"
 
 // Build order
 "PrintStatus"
-    =?> ("InstallNetCore", not isDotNetInstalled)
     ==> "CleanBuildOutput"
     ==> "Clean"
     ==> "AssemblyInfo"

@@ -221,3 +221,4 @@ _Pvt_Extensions
 **/Resources.fs
 
 AssemblyVersionInfo.fs
+paket-files/
