@@ -1,4 +1,4 @@
-### New in 1.4.0 (Released 2017/12/12)
+### New in 1.4.0 (Released 2017/11/26)
 * Integrated the source code of FsRandom into the project.
 * FsRandom got some improvements (`ref` became `mutable` and so on).
 
