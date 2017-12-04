@@ -1,7 +1,8 @@
-### New in 1.4.0 (Released 2017/11/26)
+### New in 1.4.0 (Released 2017/12/04)
 * Integrated the source code of FsRandom into the project.
 * FsRandom got some improvements (`ref` became `mutable` and so on).
 * The library now targets only .NET Standard 2.0.
+* Today used to be a wonderful day. Now it shouldn't be anything of importance.
 
 ### New in 1.3.0 (Released 2017/06/16)
 * Breaking Change: Removed support for conversions between UInt128 and bigint.

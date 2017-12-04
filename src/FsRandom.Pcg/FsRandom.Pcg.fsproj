@@ -3,16 +3,16 @@
     <PackageId>FsRandom.Pcg</PackageId>
     <Title>The PCG RNG for F#</Title>
     <Authors>Theodore Tsirpanis</Authors>
-    <Description>Implementation of the PCG Pseudorandom number generator for FsRandom. FsRandom must be installed separately.</Description>
+    <Description>The FsRandom library ported to .NET Standard, and powered by the PCG Pseudo-Random Number Generator.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License.
-Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licensed under the BSD 3-clause License.</Copyright>
+    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License. Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licensed under the BSD 3-clause License.</Copyright>
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RepositoryUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersionInfo.fs" />
