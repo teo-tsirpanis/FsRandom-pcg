@@ -9,7 +9,7 @@
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</RepositoryUrl>

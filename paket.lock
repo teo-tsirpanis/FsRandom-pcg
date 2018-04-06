@@ -1,3 +1,4 @@
+STORAGE: NONE
 RESTRICTION: == netstandard2.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
@@ -406,19 +407,22 @@ NUGET
     FAKE (4.63.2)
 
 GROUP Test
+STORAGE: NONE
 CONTENT: NONE
 RESTRICTION: == net462
 NUGET
   remote: https://api.nuget.org/v3/index.json
     Argu (3.7)
-    Expecto (5.0.1)
+    Expecto (5.1.1)
       Argu (>= 3.7)
-      FSharp.Core (>= 4.1.12)
+      FSharp.Core (>= 4.1.18)
       Mono.Cecil (>= 0.10.0-beta5)
-    Expecto.FsCheck (5.0.1)
-      Expecto (>= 5.0.1)
-      FsCheck (>= 2.8)
-      FSharp.Core (>= 4.1.12)
+      System.ValueTuple (>= 4.4)
+    Expecto.FsCheck (5.1.1)
+      Expecto (>= 5.1.1)
+      FsCheck (>= 2.10.4)
+      FSharp.Core (>= 4.1.18)
+      System.ValueTuple (>= 4.4)
     FsCheck (2.10.4)
       FSharp.Core (>= 4.1)
     FSharp.Core (4.2.3)
@@ -430,3 +434,4 @@ NUGET
     NUnit (3.9)
     NUnitLite (3.9)
       NUnit (3.9)
+    System.ValueTuple (4.4)
