@@ -3,9 +3,9 @@
     <PackageId>FsRandom.Pcg</PackageId>
     <Title>The PCG RNG for F#</Title>
     <Authors>Theodore Tsirpanis</Authors>
-    <Description>The FsRandom library ported to .NET Standard, and powered by the PCG Pseudo-Random Number Generator.</Description>
+    <Description>The PCG Pseudo-Random Number Generator for F#.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License. Integrates a modified version of FsRandom. Copyright © 2013, RecycleBin. Licensed under the BSD 3-clause License.</Copyright>
+    <Copyright>Copyright 2016 © Theodore Tsirpanis. Licensed under the MIT License.</Copyright>
     <PackageTags>F# FSharp FsRandom random pcg</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/teo-tsirpanis/FsRandom-pcg/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/teo-tsirpanis/FsRandom-pcg</PackageProjectUrl>
@@ -16,36 +16,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AssemblyVersionInfo.fs" />
-    <Compile Include="..\FsRandom\RuntimeHelper.fs" />
-    <Compile Include="..\FsRandom\Collections.fs" />
-    <Compile Include="..\FsRandom\Math.fs" />
-    <Compile Include="..\FsRandom\RandomNumberGenerator.fsi" />
-    <Compile Include="..\FsRandom\RandomNumberGenerator.fs" />
-    <Compile Include="..\FsRandom\Random.fsi" />
-    <Compile Include="..\FsRandom\Random.fs" />
-    <Compile Include="..\FsRandom\Seq.fsi" />
-    <Compile Include="..\FsRandom\Seq.fs" />
-    <Compile Include="..\FsRandom\Array.fsi" />
-    <Compile Include="..\FsRandom\Array.fs" />
-    <Compile Include="..\FsRandom\Array2D.fsi" />
-    <Compile Include="..\FsRandom\Array2D.fs" />
-    <Compile Include="..\FsRandom\List.fsi" />
-    <Compile Include="..\FsRandom\List.fs" />
-    <Compile Include="..\FsRandom\Statistics.fsi" />
-    <Compile Include="..\FsRandom\Statistics.fs" />
-    <Compile Include="..\FsRandom\String.fsi" />
-    <Compile Include="..\FsRandom\String.fs" />
     <Compile Include="LcgAdvance.fs" />
     <Compile Include="Pcg32.fs" />
     <Compile Include="Pcg64.fs" />
-    <Compile Include="..\FsRandom\Utility.fsi" />
-    <Compile Include="..\FsRandom\Utility.fs" />
-    <Compile Include="..\FsRandom\MersenneTwister.fsi" />
-    <Compile Include="..\FsRandom\MersenneTwister.fs" />
-    <Compile Include="..\FsRandom\SimdOrientedFastMersenneTwister.fsi" />
-    <Compile Include="..\FsRandom\SimdOrientedFastMersenneTwister.fs" />
-    <Compile Include="..\FsRandom\FsRandomExtensions.fsi" />
-    <Compile Include="..\FsRandom\FsRandomExtensions.fs" />
     <Compile Include="SystemRandom.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
